@@ -89,7 +89,7 @@ import { ILocalizationsChannel, LocalizationsChannelClient } from 'vs/platform/l
 import { ILocalizationsService } from 'vs/platform/localizations/common/localizations';
 import { IWorkbenchIssueService } from 'vs/workbench/services/issue/common/issue';
 import { WorkbenchIssueService } from 'vs/workbench/services/issue/electron-browser/workbenchIssueService';
-import { INotificationService } from 'vs/platform/notification/common/notification';
+import { INotificationService, Severity } from 'vs/platform/notification/common/notification';
 import { NotificationService } from 'vs/workbench/services/notification/common/notificationService';
 import { IDialogService } from 'vs/platform/dialogs/common/dialogs';
 import { DialogService } from 'vs/workbench/services/dialogs/electron-browser/dialogService';
@@ -220,6 +220,15 @@ export class WorkbenchShell {
 				if (!this.environmentService.extensionTestsPath && this.contextService.getWorkbenchState() === WorkbenchState.FOLDER) {
 					this.logLocalStorageMetrics();
 				}
+
+				this.notificationService.prompt(Severity.Info, 'Thank you for trying out the exploration build of VS Code. We have since merged Electron 2.0.x to our insiders release, so please switch back.', [
+					{
+						label: 'Download VS Code Insiders',
+						run: () => {
+							window.open('https://code.visualstudio.com/insiders/');
+						}
+					}
+				]);
 			});
 
 			return workbench;
